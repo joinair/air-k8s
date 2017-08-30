@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: air-mailer
+  namespace: default
+  labels:
+    app: air-mailer
+    env: dev
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3000
+    targetPort: service
+    protocol: TCP
+    name: http
+  selector:
+    app: air-mailer
+    env: dev
