@@ -15,7 +15,7 @@ spec:
       - env:
         - name: JAVA_OPTS
           value: -Xmx1024m -Dlogback.configurationFile=skylark/logback.xml -Dconfig.resource=skylark/production.conf
-        image: quay.io/whisk/skylark-api:v2.23
+        image: quay.io/whisk/skylark-api:v2.25
         livenessProbe:
           failureThreshold: 3
           httpGet:
@@ -30,6 +30,28 @@ spec:
         ports:
         - containerPort: 8081
           name: service
+      imagePullSecrets:
+      - name: quay-key
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: skylark-scheduler
+  namespace: prod
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: skylark-scheduler
+        env: prod
+    spec:
+      containers:
+      - env:
+        - name: JAVA_OPTS
+          value: -Xmx1024m -Dlogback.configurationFile=skylark/logback.xml -Dconfig.resource=skylark/production.conf
+        image: quay.io/whisk/skylark-scheduler:v2.25
+        name: skylark-scheduler
       imagePullSecrets:
       - name: quay-key
 ---

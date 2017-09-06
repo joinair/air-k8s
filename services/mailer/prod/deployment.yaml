@@ -2,19 +2,19 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: air-mailer
-  namespace: default
+  namespace: prod
 spec:
   replicas: 2
   template:
     metadata:
       labels:
         app: air-mailer
-        env: dev
+        env: prod
     spec:
       containers:
       - env:
         - name: __APP_ENV__
-          value: staging
+          value: production
         image: quay.io/whisk/air-mailer:b174
         livenessProbe:
           failureThreshold: 3
